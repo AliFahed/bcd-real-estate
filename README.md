@@ -1,0 +1,1 @@
+This is our **proposed solution** to implement blockchain in Real Estate Industry.
