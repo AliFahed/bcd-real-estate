@@ -11,7 +11,7 @@ public class SignUp {
     public static void signUpProcess() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("=== Signup Page ==="); // Display a header
+        System.out.println("---Signup Page---"); // Display a header
         System.out.println(); // Add a blank line
 
         System.out.print("Enter your name: ");

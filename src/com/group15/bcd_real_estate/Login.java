@@ -12,7 +12,7 @@ public class Login {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            System.out.println("=== Login Page ==="); // Display a header
+            System.out.println("---Login Page---"); // Display a header
             System.out.println(); // Add a blank line
 
             System.out.print("Enter your email: ");
@@ -21,8 +21,14 @@ public class Login {
             System.out.print("Enter your password: ");
             String enteredPassword = scanner.nextLine(); // Use nextLine() to read the entire line
 
-            if (authenticate(enteredEmail, enteredPassword)) {
+            User authenticatedUser = authenticate(enteredEmail, enteredPassword);
+
+            if (authenticatedUser != null) {
                 System.out.println("Login successful.");
+                // Create an instance of PropertyListing and pass the authenticated user
+                PropertyListing propertyListing = new PropertyListing();
+                propertyListing.setAuthenticatedUser(authenticatedUser); // Set the authenticated user
+                propertyListing.propertyListingProcess();
             } else {
                 System.out.println("Login failed.");
             }
@@ -34,7 +40,7 @@ public class Login {
         }
     }
 
-    public static boolean authenticate(String email, String password) {
+    private static User authenticate(String email, String password) {
         try (FileInputStream fileIn = new FileInputStream("users.bin");
              ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
 
@@ -47,7 +53,7 @@ public class Login {
                         String enteredPasswordHash = hashPassword(password);
 
                         if (storedUser.getPassword().equals(enteredPasswordHash)) {
-                            return true; // Authentication successful
+                            return storedUser; // Authentication successful
                         }
                     }
                 } catch (ClassNotFoundException e) {
@@ -58,7 +64,7 @@ public class Login {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false; // Authentication failed
+        return null; // Authentication failed
     }
 
     public static String hashPassword(String password) {
